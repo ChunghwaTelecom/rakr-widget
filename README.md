@@ -12,5 +12,6 @@ Embed following snippet into your HTML.
   })(window,document,'script','//cht.technology/rakr-widget.js','rakr');
   
   rakr('//localhost:3000', 'RAKR-YOUR_ID_HERE');
+  //    \- rakr base url    \- rakr id 
 </script>
 ```
