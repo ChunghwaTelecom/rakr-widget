@@ -1,0 +1,39 @@
+{
+  "name": "rakr-widget",
+  "version": "0.1.0",
+  "description": "Widget enabling Rakr integration in any site.",
+  "main": "dist/rakr.js",
+  "typings": "dist/rakr.d.ts",
+  "scripts": {
+    "postinstall": "cd src && typings install",
+    "prebuild": "rimraf dist",
+    "build": "tsc -p src/ || true",
+    "clean": "rimraf dist && rimraf node_modules && rimraf src/typings"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ChunghwaTelecom/rakr-widget.git"
+  },
+  "keywords": [
+    "rakr",
+    "widget",
+    "client",
+    "integration"
+  ],
+  "author": "Chunghwa Telecom Co., Ltd.",
+  "license": "UNLICENSED",
+  "private": true,
+  "bugs": {
+    "url": "https://github.com/ChunghwaTelecom/rakr-widget/issues"
+  },
+  "homepage": "https://github.com/ChunghwaTelecom/rakr-widget#readme",
+  "devDependencies": {
+    "mocha": "^2.4.5",
+    "rimraf": "^2.5.2",
+    "typescript": "^1.8.10",
+    "typings": "^0.8.1"
+  },
+  "dependencies": {
+    "source-map-support": "^0.4.0"
+  }
+}
