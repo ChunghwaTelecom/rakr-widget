@@ -176,10 +176,7 @@ import {HttpRequest} from './rakr-http';
       function (message) {
         prompt(message);
       }
-
     );
-
-  },
-    100);
+  }, 100);
 
 })(window, document);
