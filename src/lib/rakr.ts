@@ -1,6 +1,8 @@
 import {Promise} from 'es6-promise';
 import * as html2canvas from 'html2canvas';
 
+import {HttpRequest} from './rakr-http';
+
 (function (window, document) {
 
   var loggedIn = false;
@@ -30,38 +32,20 @@ import * as html2canvas from 'html2canvas';
    * @returns Promise which resolves with pushed snippet id.
    */
   function collectDataAndReport() {
-    return new Promise(function (resolve, reject) {
-      // TODO:
-      // Fix compile error:
-      //     TS2349: Cannot invoke an expression whose type lacks a call signature.
-      // But this code is fully working right now.
-      return html2canvas(window.document.body)
-        .then(function (canvas) {
-          var imageDataUrl = canvas.toDataURL();
-
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', resolveRakrUrl('/api/snippets'), true);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.setRequestHeader('Accept', 'application/json');
-          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-          xhr.withCredentials = true;
-          xhr.onreadystatechange = function (event) {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-              if (xhr.status === 200) {
-                resolve(xhr.responseText);
-
-              } else {
-                reject(xhr.statusText);
-              }
-            }
-          };
-
-          var snippet = {
-            imageDataUrls: [imageDataUrl]
-          };
-          xhr.send(JSON.stringify(snippet));
+    // TODO:
+    // Fix compile error:
+    //     TS2349: Cannot invoke an expression whose type lacks a call signature.
+    // But this code is fully working right now.
+    return html2canvas(window.document.body)
+      .then(function (canvas) {
+        let data = JSON.stringify({
+          imageDataUrls: [canvas.toDataURL()]
         });
-    });
+
+        let url = resolveRakrUrl('/api/snippets');
+
+        return HttpRequest.post(url, data);
+      });
   }
 
   /**
@@ -72,28 +56,7 @@ import * as html2canvas from 'html2canvas';
   }
 
   function isLoggedIn() {
-    return new Promise(function (resolve, reject) {
-      var xhr = new XMLHttpRequest();
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          if (xhr.status === 200) {
-            resolve(JSON.parse(xhr.responseText));
-
-          } else {
-            reject(xhr.statusText);
-          }
-        }
-      };
-
-      xhr.open('GET', resolveRakrUrl('/api/login/success'));
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.setRequestHeader('Accept', 'application/json');
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr.withCredentials = true;
-
-      xhr.send();
-    });
+    return HttpRequest.get(resolveRakrUrl('/api/login/success'));
   }
 
   /**
@@ -115,37 +78,19 @@ import * as html2canvas from 'html2canvas';
   }
 
   function performLogin() {
-    return new Promise(function (resolve, reject) {
-      var xhr = new XMLHttpRequest();
-
-      xhr.onreadystatechange = function () {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
-          // FIXME: I don't know why we can got the correct xhr.status here.
-          // So just request server one more time to check if login is success.
-          isLoggedIn().then(
-            function () {
-              resolve();
-            },
-            function () {
-              reject();
-            }
-          );
-        }
-      };
-
-      xhr.open('POST', resolveRakrUrl('/login'));
-      xhr.setRequestHeader('Content-Type', 'application/json');
-      xhr.setRequestHeader('Accept', 'application/json');
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-      xhr.withCredentials = true;
-
-      var parameter = {
-        'username': document.getElementById('rakr-username').value,
-        'password': document.getElementById('rakr-password').value
-      };
-
-      xhr.send(JSON.stringify(parameter));
+    let data = JSON.stringify({
+      'username': document.getElementById('rakr-username').value,
+      'password': document.getElementById('rakr-password').value
     });
+
+    let url = resolveRakrUrl('/login');
+
+    return HttpRequest.post(url, data).then(
+      // FIXME: I don't know why we can got the correct xhr.status here.
+      // So just request server one more time to check if login is success.
+      isLoggedIn,
+      isLoggedIn
+    );
   }
 
   /**
