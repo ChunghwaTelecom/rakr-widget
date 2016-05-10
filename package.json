@@ -9,7 +9,7 @@
     "prebuild": "rimraf build",
     "build": "tsc -p src/ || true",
     "predist": "rimraf dist",
-    "dist": "mkdir dist && browserify build/rakr.js > dist/rakr.js",
+    "dist": "mkdir dist && browserify build/rakr.js > dist/rakr.js && uglifyjs dist/rakr.js -o dist/rakr.min.js",
     "clean": "rimraf node_modules && rimraf src/typings && rimraf build && rimraf dist"
   },
   "repository": {
@@ -34,7 +34,8 @@
     "mocha": "^2.4.5",
     "rimraf": "^2.5.2",
     "typescript": "^1.8.10",
-    "typings": "^0.8.1"
+    "typings": "^0.8.1",
+    "uglify-js": "^2.6.2"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
