@@ -1,7 +1,7 @@
 import {Promise} from 'es6-promise';
 import * as html2canvas from 'html2canvas';
 
-import {HttpRequest} from './rakr-http';
+import {HttpRequest} from './http-request';
 
 (function (window, document) {
 
