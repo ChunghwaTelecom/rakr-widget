@@ -1,47 +1,9 @@
 import {Promise} from 'es6-promise';
-import {html2canvas} from 'html2canvas';
+import * as html2canvas from 'html2canvas';
 
 (function (window, document) {
 
-  var HTML_2_CANVAS_URL = '//cdnjs.cloudflare.com/ajax/libs/html2canvas/0.4.1/html2canvas.min.js';
-
   var loggedIn = false;
-
-  /**
-   * Script injection.
-   */
-  var importScript = (function (headElement) {
-    return function (src) {
-      return new Promise(function (resolve, reject) {
-        var scriptElement = document.createElement('script');
-        scriptElement.type = 'text\/javascript';
-        scriptElement.onerror = function (event) {
-          reject('The script ' + event.target.src + ' is not accessible.');
-        };
-        scriptElement.onload = function () {
-          resolve();
-        };
-        headElement.appendChild(scriptElement);
-        scriptElement.src = src;
-      });
-    };
-
-  })(document.head || document.getElementsByTagName('head')[0]);
-
-  var html2CanvasLoaded = false;
-  /**
-   * Load Html2Canvas and them perform given callback once loaded.
-   */
-  function loadHtml2Canvas() {
-    if (html2CanvasLoaded) {
-      return Promise.resolve();
-
-    } else {
-      return importScript(HTML_2_CANVAS_URL).then(function () {
-        html2CanvasLoaded = true;
-      });
-    }
-  }
 
   /**
    * Prepare data and report.
@@ -69,32 +31,35 @@ import {html2canvas} from 'html2canvas';
    */
   function collectDataAndReport() {
     return new Promise(function (resolve, reject) {
-      html2canvas(window.document.body, {
-        onrendered: function (canvas) {
-          var imageDataUrl = canvas.toDataURL();
+      // TODO:
+      // Fix compile error:
+      //     TS2349: Cannot invoke an expression whose type lacks a call signature.
+      // But this code is fully working right now.
+      return html2canvas(window.document.body)
+      .then(function (canvas) {
+        var imageDataUrl = canvas.toDataURL();
 
-          var xhr = new XMLHttpRequest();
-          xhr.open('POST', resolveRakrUrl('/api/snippets'), true);
-          xhr.setRequestHeader('Content-Type', 'application/json');
-          xhr.setRequestHeader('Accept', 'application/json');
-          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-          xhr.withCredentials = true;
-          xhr.onreadystatechange = function (event) {
-            if (xhr.readyState === XMLHttpRequest.DONE) {
-              if (xhr.status === 200) {
-                resolve(xhr.responseText);
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', resolveRakrUrl('/api/snippets'), true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.setRequestHeader('Accept', 'application/json');
+        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+        xhr.withCredentials = true;
+        xhr.onreadystatechange = function (event) {
+          if (xhr.readyState === XMLHttpRequest.DONE) {
+            if (xhr.status === 200) {
+              resolve(xhr.responseText);
 
-              } else {
-                reject(xhr.statusText);
-              }
+            } else {
+              reject(xhr.statusText);
             }
-          };
+          }
+        };
 
-          var snippet = {
-            imageDataUrls: [imageDataUrl]
-          };
-          xhr.send(JSON.stringify(snippet));
-        }
+        var snippet = {
+          imageDataUrls: [imageDataUrl]
+        };
+        xhr.send(JSON.stringify(snippet));
       });
     });
   }
@@ -103,9 +68,7 @@ import {html2canvas} from 'html2canvas';
    * Try to load related libraries and report.
    */
   function performReport() {
-    return loadHtml2Canvas().then(
-      collectDataAndReport
-    );
+      return collectDataAndReport();
   }
 
   function isLoggedIn() {
