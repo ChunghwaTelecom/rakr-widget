@@ -29,9 +29,9 @@ import {HttpRequest} from './rakr-http';
   /**
    * Collect data and report issue.
    *
-   * @returns Promise which resolves with pushed snippet id.
+   * @returns Promise which resolves with submitted snippet id.
    */
-  function collectDataAndReport() {
+  function performReport() {
     // TODO:
     // Fix compile error:
     //     TS2349: Cannot invoke an expression whose type lacks a call signature.
@@ -46,13 +46,6 @@ import {HttpRequest} from './rakr-http';
 
         return HttpRequest.post(url, data);
       });
-  }
-
-  /**
-   * Try to load related libraries and report.
-   */
-  function performReport() {
-    return collectDataAndReport();
   }
 
   function isLoggedIn() {
