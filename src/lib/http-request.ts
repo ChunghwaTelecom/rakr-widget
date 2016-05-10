@@ -1,11 +1,20 @@
 import {Promise} from 'es6-promise';
 
+/**
+ * HttpReqeust encapsulates XMLHttpRequest for concise and promisified usage.
+ */
 export class HttpRequest {
 
+  /**
+   * POST request to specified url with specified data.
+   */
   public static post(url: string, data: string): Promise<String> {
     return HttpRequest.execute('POST', url, data);
   }
 
+  /**
+   * Issue GET request to specified url.
+   */
   public static get(url: string): Promise<String> {
     return HttpRequest.execute('GET', url);
   }
