@@ -36,31 +36,31 @@ import * as html2canvas from 'html2canvas';
       //     TS2349: Cannot invoke an expression whose type lacks a call signature.
       // But this code is fully working right now.
       return html2canvas(window.document.body)
-      .then(function (canvas) {
-        var imageDataUrl = canvas.toDataURL();
+        .then(function (canvas) {
+          var imageDataUrl = canvas.toDataURL();
 
-        var xhr = new XMLHttpRequest();
-        xhr.open('POST', resolveRakrUrl('/api/snippets'), true);
-        xhr.setRequestHeader('Content-Type', 'application/json');
-        xhr.setRequestHeader('Accept', 'application/json');
-        xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-        xhr.withCredentials = true;
-        xhr.onreadystatechange = function (event) {
-          if (xhr.readyState === XMLHttpRequest.DONE) {
-            if (xhr.status === 200) {
-              resolve(xhr.responseText);
+          var xhr = new XMLHttpRequest();
+          xhr.open('POST', resolveRakrUrl('/api/snippets'), true);
+          xhr.setRequestHeader('Content-Type', 'application/json');
+          xhr.setRequestHeader('Accept', 'application/json');
+          xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+          xhr.withCredentials = true;
+          xhr.onreadystatechange = function (event) {
+            if (xhr.readyState === XMLHttpRequest.DONE) {
+              if (xhr.status === 200) {
+                resolve(xhr.responseText);
 
-            } else {
-              reject(xhr.statusText);
+              } else {
+                reject(xhr.statusText);
+              }
             }
-          }
-        };
+          };
 
-        var snippet = {
-          imageDataUrls: [imageDataUrl]
-        };
-        xhr.send(JSON.stringify(snippet));
-      });
+          var snippet = {
+            imageDataUrls: [imageDataUrl]
+          };
+          xhr.send(JSON.stringify(snippet));
+        });
     });
   }
 
@@ -68,7 +68,7 @@ import * as html2canvas from 'html2canvas';
    * Try to load related libraries and report.
    */
   function performReport() {
-      return collectDataAndReport();
+    return collectDataAndReport();
   }
 
   function isLoggedIn() {
@@ -242,6 +242,6 @@ import * as html2canvas from 'html2canvas';
     );
 
   },
-  100);
+    100);
 
 })(window, document);
