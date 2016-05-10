@@ -1,9 +1,10 @@
 import {Promise} from 'es6-promise';
-import * as html2canvas from 'html2canvas';
 
 import {HttpRequest} from './http-request';
 import {Context} from './context';
 
+declare function html2canvas(element: Element) : Promise<HTMLCanvasElement>;
+  
 export class Widget {
   context: Context;
   loggedIn = false;
