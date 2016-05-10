@@ -3,6 +3,7 @@ import {Promise} from 'es6-promise';
 import {HttpRequest} from './http-request';
 import {Context} from './context';
 
+declare function require(module: string):any;
 declare function html2canvas(element: Element) : Promise<HTMLCanvasElement>;
   
 export class Widget {
