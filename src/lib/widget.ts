@@ -63,7 +63,7 @@ export class Widget {
    */
   createButton() {
     var reportButton = document.createElement('div');
-    reportButton.innerHTML = '回報問題';
+    reportButton.innerHTML = require('./widget.html');
     reportButton.style.position = 'fixed';
     reportButton.style.right = '0';
     reportButton.style.bottom = '0';
@@ -98,9 +98,7 @@ export class Widget {
   login() {
     return new Promise((resolve, reject) => {
       var loginForm = document.createElement('form');
-      loginForm.innerHTML = '<div><label>帳號</label><input id="rakr-username" autofocus="true"></div>' +
-        '<div><label>密碼</label><input id="rakr-password" type="password"></div>' +
-        '<div><button type="submit">登入</button><button type="button" id="rakr-login-close">關閉</button></div>';
+      loginForm.innerHTML = require('./login-form.html');
       loginForm.style.display = 'inline-block';
 
       var loginPanel = document.createElement('div');
