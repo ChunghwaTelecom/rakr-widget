@@ -2,26 +2,32 @@ import {Promise} from 'es6-promise';
 import * as html2canvas from 'html2canvas';
 
 import {HttpRequest} from './http-request';
+import {Context} from './context';
 
-(function (window, document) {
+export class Widget {
+  context: Context;
+  loggedIn = false;
 
-  var loggedIn = false;
+  constructor() {
+    this.context = new Context();
+    this.createButton();
+  }
 
   /**
    * Prepare data and report.
    */
-  function reportIssue() {
-    isLoggedIn().then(
-      performReport,
-      function () {
-        return login().then(
-          performReport
+  reportIssue() {
+    this.isLoggedIn().then(
+      () => this.performReport(),
+      () => {
+        return this.login().then(
+          () => this.performReport()
         );
       }
-    ).then(function (id) {
-      var newWindow = window.open(resolveRakrUrl('/issues/new/5?snippet=' + id));
+    ).then((id) => {
+      var newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
       if (!newWindow) {
-        prompt('請允許開啟彈跳式視窗。');
+        this.prompt('請允許開啟彈跳式視窗。');
       }
     });
   }
@@ -31,66 +37,66 @@ import {HttpRequest} from './http-request';
    *
    * @returns Promise which resolves with submitted snippet id.
    */
-  function performReport() {
+  performReport() {
     // TODO:
     // Fix compile error:
     //     TS2349: Cannot invoke an expression whose type lacks a call signature.
     // But this code is fully working right now.
     return html2canvas(window.document.body)
-      .then(function (canvas) {
+      .then((canvas) => {
         let data = JSON.stringify({
           imageDataUrls: [canvas.toDataURL()]
         });
 
-        let url = resolveRakrUrl('/api/snippets');
+        let url = this.context.resolveFullPath('/api/snippets');
 
         return HttpRequest.post(url, data);
       });
   }
 
-  function isLoggedIn() {
-    return HttpRequest.get(resolveRakrUrl('/api/login/success'));
+  isLoggedIn() {
+    return HttpRequest.get(this.context.resolveFullPath('/api/login/success'));
   }
 
   /**
    * Create report button.
    */
-  function createButton() {
+  createButton() {
     var reportButton = document.createElement('div');
     reportButton.innerHTML = '回報問題';
     reportButton.style.position = 'fixed';
-    reportButton.style.right = 0;
-    reportButton.style.bottom = 0;
+    reportButton.style.right = '0';
+    reportButton.style.bottom = '0';
     reportButton.style.backgroundColor = 'thistle';
     reportButton.style.padding = '0.5rem';
-    reportButton.style.zIndex = 10000;
+    reportButton.style.zIndex = '10000';
 
-    reportButton.onclick = reportIssue;
+    reportButton.onclick = () => this.reportIssue();
 
     document.body.appendChild(reportButton);
   }
 
-  function performLogin() {
+  performLogin() {
     let data = JSON.stringify({
       'username': document.getElementById('rakr-username').value,
       'password': document.getElementById('rakr-password').value
     });
 
-    let url = resolveRakrUrl('/login');
+    let url = this.context.resolveFullPath('/login');
 
     return HttpRequest.post(url, data).then(
       // FIXME: I don't know why we can got the correct xhr.status here.
       // So just request server one more time to check if login is success.
-      isLoggedIn,
-      isLoggedIn
+      () => this.isLoggedIn(),
+      () => this.isLoggedIn()
     );
   }
 
   /**
    * Popup login panel for performing login.
    */
-  function login() {
-    return new Promise(function (resolve, reject) {
+  login() {
+    return new Promise((resolve, reject) => {
       var loginForm = document.createElement('form');
       loginForm.innerHTML = '<div><label>帳號</label><input id="rakr-username" autofocus="true"></div>' +
         '<div><label>密碼</label><input id="rakr-password" type="password"></div>' +
@@ -99,7 +105,7 @@ import {HttpRequest} from './http-request';
 
       var loginPanel = document.createElement('div');
       loginPanel.appendChild(loginForm);
-      loginPanel.style.zIndex = 10000;
+      loginPanel.style.zIndex = '10000';
       loginPanel.style.textAlign = 'center';
       loginPanel.style.position = 'absolute';
       loginPanel.style.top = '50%';
@@ -111,72 +117,44 @@ import {HttpRequest} from './http-request';
       loginPanel.style.height = '100px';
       loginPanel.style.backgroundColor = 'gray';
 
-      loginForm.onsubmit = function (event) {
+      loginForm.onsubmit = (event) => {
         event.preventDefault();
 
-        performLogin().then(
-          function () {
+        this.performLogin().then(
+          () => {
             document.body.removeChild(loginPanel);
             resolve();
           },
-          function (message) {
-            prompt(!message ? '登入失敗' : '登入失敗' + message);
+          (message) => {
+            this.prompt(!message ? '登入失敗' : '登入失敗' + message);
           }
         );
       };
 
       document.body.appendChild(loginPanel);
 
-      document.getElementById('rakr-login-close').onclick = function () {
+      document.getElementById('rakr-login-close').onclick = () => {
         document.body.removeChild(loginPanel);
         reject();
       };
     });
   }
 
-  function prompt(message) {
+  prompt(message) {
     alert(message);
   }
+}
 
-  var rakrUrl;
-  var rakrClientId;
+/**
+ * Bootstapper.
+ */
+(function () {
+  setTimeout(() => {
+    try {
+      new Widget()
 
-  function isRakrInitialized() {
-    return new Promise(
-      function (resolve, reject) {
-        if (window.RakrWidgetObject && window[window.RakrWidgetObject].q && window[window.RakrWidgetObject].q[0]) {
-          var argumentsQueue = window[window.RakrWidgetObject].q;
-          var url = argumentsQueue[0][0];
-          if (url && (url.indexOf('http://') === 0 || url.indexOf('https://') === 0 || url.indexOf('//') === 0)) {
-            rakrUrl = url;
-          }
-          var id = argumentsQueue[0][1];
-          if (id.indexOf('RAKR-') === 0) {
-            rakrClientId = id;
-          }
-        }
-        if (rakrUrl && rakrClientId) {
-          resolve();
-        } else {
-          reject('Rakr Widget not initialized.');
-        }
-      }
-    );
-  }
-
-  function resolveRakrUrl(path) {
-    return rakrUrl + path;
-  }
-
-  setTimeout(function () {
-    isRakrInitialized().then(
-      function () {
-        createButton();
-      },
-      function (message) {
-        prompt(message);
-      }
-    );
+    } catch (e) {
+      alert(e.message);
+    }
   }, 100);
-
-})(window, document);
+})();
