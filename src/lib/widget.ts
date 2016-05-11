@@ -42,10 +42,6 @@ export class Widget {
    * @returns Promise which resolves with submitted snippet id.
    */
   performReport() {
-    // TODO:
-    // Fix compile error:
-    //     TS2349: Cannot invoke an expression whose type lacks a call signature.
-    // But this code is fully working right now.
     return html2canvas(window.document.body)
       .then((canvas) => {
         let data = JSON.stringify({
