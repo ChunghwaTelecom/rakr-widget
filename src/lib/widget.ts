@@ -20,7 +20,7 @@ export class Widget {
   /**
    * Prepare data and report.
    */
-  reportIssue() {
+  private reportIssue(): void {
     this.loginPanel.isLoggedIn().then(
       () => this.performReport(),
       () => {
@@ -41,7 +41,7 @@ export class Widget {
    *
    * @returns Promise which resolves with submitted snippet id.
    */
-  performReport() {
+  private performReport(): Promise<string> {
     return html2canvas(window.document.body)
       .then((canvas) => {
         let data = JSON.stringify({
@@ -57,7 +57,7 @@ export class Widget {
   /**
    * Create report button.
    */
-  createButton() {
+  private createButton(): void {
     var reportButton = document.createElement('div');
     reportButton.innerHTML = require('./widget.html');
     let reportPanelClass = require('./widget.css').reportPanel;
