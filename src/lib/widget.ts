@@ -95,25 +95,13 @@ export class Widget {
    */
   login() {
     return new Promise((resolve, reject) => {
-      var loginForm = document.createElement('form');
-      loginForm.innerHTML = require('./login-form.html');
-      loginForm.style.display = 'inline-block';
+      let loginPanel = document.createElement('div');
+      loginPanel.innerHTML = require('./login-panel.html');
+      loginPanel.className = require('./login-panel.css').loginPanel;
 
-      var loginPanel = document.createElement('div');
-      loginPanel.appendChild(loginForm);
-      loginPanel.style.zIndex = '10000';
-      loginPanel.style.textAlign = 'center';
-      loginPanel.style.position = 'absolute';
-      loginPanel.style.top = '50%';
-      loginPanel.style.left = '50%';
-      loginPanel.style.marginTop = '-50px';
-      loginPanel.style.marginLeft = '-50px';
-      loginPanel.style.padding = '10px';
-      loginPanel.style.width = '250px';
-      loginPanel.style.height = '100px';
-      loginPanel.style.backgroundColor = 'gray';
+      document.body.appendChild(loginPanel);
 
-      loginForm.onsubmit = (event) => {
+      document.getElementById('rakr-login-form').onsubmit = (event) => {
         event.preventDefault();
 
         this.performLogin().then(
@@ -126,8 +114,6 @@ export class Widget {
           }
         );
       };
-
-      document.body.appendChild(loginPanel);
 
       document.getElementById('rakr-login-close').onclick = () => {
         document.body.removeChild(loginPanel);
