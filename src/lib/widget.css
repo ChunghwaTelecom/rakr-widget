@@ -1,0 +1,8 @@
+:local(.reportPanel) {
+  position: fixed;
+  right: 0;
+  bottom: 0;
+  background-color: thistle;
+  padding: 0.5rem;
+  z-index: 10000;
+}

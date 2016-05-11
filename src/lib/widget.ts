@@ -66,12 +66,8 @@ export class Widget {
   createButton() {
     var reportButton = document.createElement('div');
     reportButton.innerHTML = require('./widget.html');
-    reportButton.style.position = 'fixed';
-    reportButton.style.right = '0';
-    reportButton.style.bottom = '0';
-    reportButton.style.backgroundColor = 'thistle';
-    reportButton.style.padding = '0.5rem';
-    reportButton.style.zIndex = '10000';
+    let reportPanelClass = require('./widget.css').reportPanel;
+    reportButton.className = reportPanelClass;
 
     reportButton.onclick = () => this.reportIssue();
 
