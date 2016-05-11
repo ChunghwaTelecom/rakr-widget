@@ -6,11 +6,9 @@
   "typings": "dist/rakr.d.ts",
   "scripts": {
     "postinstall": "cd src && typings install",
-    "prebuild": "rimraf build",
-    "build": "tsc -p src/ || true && copyfiles -f src/lib/*.html build",
-    "predist": "rimraf dist",
-    "dist": "mkdir dist && browserify -t [ stringify --extensions [.html] ] build/rakr.js > dist/rakr.js && uglifyjs dist/rakr.js -o dist/rakr.min.js",
-    "clean": "rimraf node_modules && rimraf src/typings && rimraf build && rimraf dist"
+    "prebuild": "rimraf dist",
+    "build": "webpack --config webpack.config.js --progress --profile --colors --display-error-details --display-cached",
+    "clean": "rimraf node_modules && rimraf src/typings && rimraf dist"
   },
   "repository": {
     "type": "git",
@@ -30,18 +28,16 @@
   },
   "homepage": "https://github.com/ChunghwaTelecom/rakr-widget#readme",
   "devDependencies": {
-    "browserify": "^13.0.1",
-    "copyfiles": "^0.2.1",
+    "awesome-typescript-loader": "^0.17.0",
+    "html-loader": "^0.4.3",
     "mocha": "^2.4.5",
     "rimraf": "^2.5.2",
-    "stringify": "^5.1.0",
     "typescript": "^1.8.10",
     "typings": "^0.8.1",
-    "uglify-js": "^2.6.2"
+    "webpack": "^1.13.0"
   },
   "dependencies": {
     "es6-promise": "^3.1.2",
-    "html2canvas": "^0.5.0-beta4",
-    "source-map-support": "^0.4.0"
+    "html2canvas": "^0.5.0-beta4"
   }
 }
