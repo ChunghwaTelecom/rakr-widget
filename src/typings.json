@@ -2,7 +2,9 @@
   "name": "rakr-widget",
   "version": false,
   "dependencies": {
-    "es6-promise": "registry:npm/es6-promise#3.0.0+20160211003958",
-    "html2canvas": "registry:dt/html2canvas#0.0.0+20160414141641"
+    "es6-promise": "registry:npm/es6-promise#3.0.0+20160211003958"
+  },
+  "ambientDependencies": {
+    "html2canvas": "github:tan9/DefinitelyTyped/html2canvas/html2canvas.d.ts#880baba507bdbeae43cc6fceb96db0a6b63ff0cf"
   }
 }
