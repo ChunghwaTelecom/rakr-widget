@@ -28,6 +28,7 @@
   },
   "homepage": "https://github.com/ChunghwaTelecom/rakr-widget#readme",
   "devDependencies": {
+    "autoprefixer-loader": "^3.2.0",
     "awesome-typescript-loader": "^0.17.0",
     "css-loader": "^0.23.1",
     "html-loader": "^0.4.3",

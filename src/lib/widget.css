@@ -1,8 +1,20 @@
 :local(.reportPanel) {
   position: fixed;
-  right: 0;
-  bottom: 0;
-  background-color: thistle;
+  height: 1rem;
+  width: 6rem;
   padding: 0.5rem;
+  right: 0;
+  bottom: -1.7rem;
+  background-color: thistle;
+  text-align: center;
+  border: medium solid mediumpurple;
   z-index: 10000;
+  border-radius: 0.2rem 0.2rem 0 0;
+  transition-property: all;
+  transition-duration: 0.5s;
+  transition-timing-function: ease-in;
+}
+
+:local(.reportPanel):hover {
+  bottom: -0.2rem;
 }
