@@ -7,7 +7,7 @@
   "scripts": {
     "postinstall": "cd src && typings install",
     "prebuild": "rimraf build",
-    "build": "tsc -p src/ || cp src/lib/*.html build || true",
+    "build": "tsc -p src/ || true && copyfiles -f src/lib/*.html build",
     "predist": "rimraf dist",
     "dist": "mkdir dist && browserify -t [ stringify --extensions [.html] ] build/rakr.js > dist/rakr.js && uglifyjs dist/rakr.js -o dist/rakr.min.js",
     "clean": "rimraf node_modules && rimraf src/typings && rimraf build && rimraf dist"
@@ -31,6 +31,7 @@
   "homepage": "https://github.com/ChunghwaTelecom/rakr-widget#readme",
   "devDependencies": {
     "browserify": "^13.0.1",
+    "copyfiles": "^0.2.1",
     "mocha": "^2.4.5",
     "rimraf": "^2.5.2",
     "stringify": "^5.1.0",
