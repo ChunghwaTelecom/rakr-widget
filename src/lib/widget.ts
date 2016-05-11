@@ -4,7 +4,7 @@ import * as html2canvas from 'html2canvas';
 import {HttpRequest} from './http-request';
 import {Context} from './context';
 
-declare function require(module: string):any;
+declare function require(module: string): any;
 
 export class Widget {
   context: Context;
