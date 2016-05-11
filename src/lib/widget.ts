@@ -2,14 +2,18 @@ import {Promise} from 'es6-promise';
 import * as html2canvas from 'html2canvas';
 
 import {HttpRequest} from './http-request';
+import {LoginPanel} from './login-panel';
 import {Context} from './context';
+import {Prompter} from './prompter';
 
 export class Widget {
   context: Context;
+  loginPanel: LoginPanel;
   loggedIn = false;
 
   constructor() {
     this.context = new Context();
+    this.loginPanel = new LoginPanel(this.context);
     this.createButton();
   }
 
@@ -17,17 +21,17 @@ export class Widget {
    * Prepare data and report.
    */
   reportIssue() {
-    this.isLoggedIn().then(
+    this.loginPanel.isLoggedIn().then(
       () => this.performReport(),
       () => {
-        return this.login().then(
+        return this.loginPanel.login().then(
           () => this.performReport()
         );
       }
     ).then((id) => {
       var newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
       if (!newWindow) {
-        this.prompt('請允許開啟彈跳式視窗。');
+        Prompter.prompt('請允許開啟彈跳式視窗。');
       }
     });
   }
@@ -54,10 +58,6 @@ export class Widget {
       });
   }
 
-  isLoggedIn() {
-    return HttpRequest.get(this.context.resolveFullPath('/api/login/success'));
-  }
-
   /**
    * Create report button.
    */
@@ -70,57 +70,5 @@ export class Widget {
     reportButton.onclick = () => this.reportIssue();
 
     document.body.appendChild(reportButton);
-  }
-
-  performLogin() {
-    let data = JSON.stringify({
-      'username': (<HTMLInputElement> document.getElementById('rakr-username')).value,
-      'password': (<HTMLInputElement> document.getElementById('rakr-password')).value
-    });
-
-    let url = this.context.resolveFullPath('/login');
-
-    return HttpRequest.post(url, data).then(
-      // FIXME: I don't know why we can got the correct xhr.status here.
-      // So just request server one more time to check if login is success.
-      () => this.isLoggedIn(),
-      () => this.isLoggedIn()
-    );
-  }
-
-  /**
-   * Popup login panel for performing login.
-   */
-  login() {
-    return new Promise((resolve, reject) => {
-      let loginPanel = document.createElement('div');
-      loginPanel.innerHTML = require('./login-panel.html');
-      loginPanel.className = require('./login-panel.css').loginPanel;
-
-      document.body.appendChild(loginPanel);
-
-      document.getElementById('rakr-login-form').onsubmit = (event) => {
-        event.preventDefault();
-
-        this.performLogin().then(
-          () => {
-            document.body.removeChild(loginPanel);
-            resolve();
-          },
-          (message) => {
-            this.prompt(!message ? '登入失敗' : '登入失敗' + message);
-          }
-        );
-      };
-
-      document.getElementById('rakr-login-close').onclick = () => {
-        document.body.removeChild(loginPanel);
-        reject();
-      };
-    });
-  }
-
-  prompt(message) {
-    alert(message);
   }
 }

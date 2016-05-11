@@ -1,4 +1,5 @@
 import {Widget} from './widget';
+import {Prompter} from './prompter';
 
 /**
  * Bootstapper.
@@ -9,7 +10,7 @@ import {Widget} from './widget';
       new Widget()
 
     } catch (e) {
-      alert(e.message);
+      Prompter.prompt(e.message);
     }
   }, 100);
 })();
