@@ -80,8 +80,8 @@ export class Widget {
 
   performLogin() {
     let data = JSON.stringify({
-      'username': document.getElementById('rakr-username').value,
-      'password': document.getElementById('rakr-password').value
+      'username': (<HTMLInputElement> document.getElementById('rakr-username')).value,
+      'password': (<HTMLInputElement> document.getElementById('rakr-password')).value
     });
 
     let url = this.context.resolveFullPath('/login');
