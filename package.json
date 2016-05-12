@@ -8,6 +8,7 @@
     "postinstall": "cd src && typings install",
     "prebuild": "rimraf dist",
     "build": "webpack --config webpack.config.js --progress --profile --colors --display-error-details --display-cached",
+    "dev": "webpack-dev-server --content-base dist/",
     "clean": "rimraf node_modules && rimraf src/typings && rimraf dist"
   },
   "repository": {
