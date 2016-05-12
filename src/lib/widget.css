@@ -1,7 +1,5 @@
 :local(.reportPanel) {
   position: fixed;
-  height: 1rem;
-  width: 6rem;
   padding: 0.5rem;
   right: 0;
   bottom: -1.7rem;
