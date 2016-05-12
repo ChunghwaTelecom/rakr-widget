@@ -15,3 +15,29 @@ Embed following snippet into your HTML.
   //    \- rakr base url    \- rakr id 
 </script>
 ```
+
+## Development
+
+We use TypeScript and webpack to develop this widget, please have Node.js and NPM installed, and run following command in project directory to install all related stuffs:
+
+```
+npm install
+```
+
+### Build
+
+You can run following command to build distributable js in `dist` folder:
+
+```
+npm run build
+```
+
+### Run Development Server
+
+Start a webpack-dev-server and serving rakr.js in `http://localhost:8080/rakr.js`, simply type:
+
+```
+npm run dev
+```
+
+and start hacking.
