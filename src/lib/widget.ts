@@ -29,7 +29,7 @@ export class Widget {
         );
       }
     ).then((id) => {
-      var newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
+      let newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
       if (!newWindow) {
         Prompter.prompt('請允許開啟彈跳式視窗。');
       }
@@ -58,7 +58,7 @@ export class Widget {
    * Create report button.
    */
   private createButton(): void {
-    var reportButton = document.createElement('div');
+    let reportButton = document.createElement('div');
     reportButton.innerHTML = require('./widget.html');
     let reportPanelClass = require('./widget.css').reportPanel;
     reportButton.className = reportPanelClass;
