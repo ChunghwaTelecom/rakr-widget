@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 import {HttpRequest} from './http-request';
 import {Context} from './context';
 import {Prompter} from './prompter';
