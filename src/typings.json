@@ -1,10 +1,8 @@
 {
   "name": "rakr-widget",
   "version": false,
-  "dependencies": {
-    "es6-promise": "registry:npm/es6-promise#3.0.0+20160211003958"
-  },
-  "ambientDependencies": {
+  "globalDependencies": {
+    "core-js": "registry:dt/core-js#0.0.0+20160317120654",
     "html2canvas": "github:tan9/DefinitelyTyped/html2canvas/html2canvas.d.ts#083fa59488e8abc2fd340c3c9b082795d28dedb2"
   }
 }

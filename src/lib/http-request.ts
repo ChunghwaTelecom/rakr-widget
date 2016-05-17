@@ -1,5 +1,3 @@
-import {Promise} from 'es6-promise';
-
 /**
  * HttpReqeust encapsulates XMLHttpRequest for concise and promisified usage.
  */
