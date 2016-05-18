@@ -5,7 +5,6 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba( 176, 196, 222, 0.6);
   z-index: 10000;
 }
 
@@ -19,9 +18,7 @@
   text-align: center;
   font-family: sans-serif;
   font-size: 1rem;
-  color: #ddd;
-  background-color: #666;
-  border: medium solid #333;
+  border: medium solid;
   border-radius: 0.5rem;
   box-shadow: 0.2rem 0.2rem 0.5rem rgb(176, 196, 222);
 }
@@ -29,7 +26,7 @@
 :local(.loginPanel) input {
   font-size: 1rem;
   margin: 0.25rem;
-  border: medium solid rgba(255, 255, 255, 0.5);
+  border: medium solid;
   border-radius: 0.2rem;
 }
 
@@ -40,13 +37,11 @@
 :local(.loginPanel) .button-set button {
   padding: 0.2rem 0.5rem;
   font-size: 1rem;
-  color: #ddd;
   background-color: transparent;
-  border: medium solid rgba(255, 255, 255, 0.5);
+  border: medium solid;
   border-radius: 0.2rem;
 }
 
 :local(.loginPanel) .button-set button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: medium solid rgba(255, 255, 255, 0.75);
+  border: medium solid;
 }

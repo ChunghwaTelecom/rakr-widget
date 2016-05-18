@@ -1,0 +1,7 @@
+@import "../theme/theme.light.css";
+
+:local(.reportPanel) {
+  color: var(--textColor);
+  background-color: var(--backgroundColor);
+  border-color: var(--borderColor);
+}

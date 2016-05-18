@@ -14,8 +14,12 @@ export class ReportButton {
   private createButton(): void {
     let reportButton: HTMLDivElement = document.createElement('div');
     reportButton.innerHTML = require('./report-button.html');
-    let baseClass = require('./report-button.css').reportPanel;
 
+    let classes = [];
+    // base style class
+    classes.push(require('./report-button.css').reportPanel);
+
+    // position style class
     let positionClass;
     switch (this.context.display.position) {
       case Context.Position.BottomLeft:
@@ -36,8 +40,17 @@ export class ReportButton {
         positionClass = require('./report-button.position.bottom-right.css').reportPanel;
     }
 
-    reportButton.className = `${baseClass} ${positionClass}`;
+    classes.push(positionClass)
 
+    // theme style class
+    try {
+      classes.push(require(`./report-button.theme.${this.context.display.theme}.css`).reportPanel);
+    } catch (e) {
+      console.warn(`Failed to load theme "${this.context.display.theme}".`, e);
+    }
+
+    // done
+    reportButton.className = classes.join(' ');
     document.body.appendChild(reportButton);
 
     this.reportButton = reportButton;

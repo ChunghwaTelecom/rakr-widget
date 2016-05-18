@@ -55,6 +55,15 @@ export class Context {
       display.position = Context.Position.BottomRight;
     }
 
+    // parse "theme"
+    let themeArguments: string[] = this.findArgumentsQueue('theme');
+    if (themeArguments.length > 0 && !!themeArguments[0]) {
+      display.theme = themeArguments[0].toLowerCase();
+    } else {
+      display.theme = 'dark';
+    }
+
+    // done
     this.display = display;
   }
 
@@ -86,5 +95,6 @@ export module Context {
 
   export class Display {
     position: Context.Position;
+    theme: string;
   }
 }

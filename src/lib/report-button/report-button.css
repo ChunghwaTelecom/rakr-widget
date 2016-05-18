@@ -4,9 +4,7 @@
   padding: 0.5rem;
   font-family: sans-serif;
   text-align: center;
-  color: #ddd;
-  background-color: #666;
-  border: medium solid #333;
+  border: medium solid;
   border-radius: 0.2rem 0.2rem 0 0;
   z-index: 10000;
   transition-property: all;
