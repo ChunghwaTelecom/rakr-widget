@@ -1,4 +1,5 @@
-var webpack = require('webpack');
+var precss       = require('precss');
+var autoprefixer = require('autoprefixer');
 
 module.exports = {
 
@@ -25,9 +26,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        loader: 'style!css!autoprefixer'
+        loader: 'style!css!postcss'
       }
     ]
+  },
+  postcss: function () {
+    return [precss, autoprefixer];
   },
   output: {
     path: 'dist',
