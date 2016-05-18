@@ -19,21 +19,21 @@ export class ReportButton {
     let positionClass;
     switch (this.context.display.position) {
       case Context.Position.BottomLeft:
-        positionClass = require('./report-button.position-bottom-left.css').reportPanel;
+        positionClass = require('./report-button.position.bottom-left.css').reportPanel;
         break;
 
       case Context.Position.TopLeft:
-        positionClass = require('./report-button.position-top-left.css').reportPanel;
+        positionClass = require('./report-button.position.top-left.css').reportPanel;
         break;
 
       case Context.Position.TopRight:
-        positionClass = require('./report-button.position-top-right.css').reportPanel;
+        positionClass = require('./report-button.position.top-right.css').reportPanel;
         break;
 
       case Context.Position.BottomRight:
       /* fallthrough */
       default:
-        positionClass = require('./report-button.position-bottom-right.css').reportPanel;
+        positionClass = require('./report-button.position.bottom-right.css').reportPanel;
     }
 
     reportButton.className = `${baseClass} ${positionClass}`;
