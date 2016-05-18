@@ -1,0 +1,10 @@
+:local(.reportPanel) {
+  transform: rotate(90deg);
+  transform-origin: top left;
+  top: 1rem;
+  left: 2rem;
+}
+
+:local(.reportPanel):hover {
+  left: 3.5rem;
+}

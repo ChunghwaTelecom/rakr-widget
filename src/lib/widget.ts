@@ -4,16 +4,20 @@ import {HttpRequest} from './http-request';
 import {LoginPanel} from './login-panel';
 import {Context} from './context';
 import {Prompter} from './prompter';
+import {ReportButton} from './report-button/report-button';
 
 export class Widget {
-  context: Context;
-  loginPanel: LoginPanel;
+  private context: Context;
+  private reportButton: ReportButton;
+  private loginPanel: LoginPanel;
+  
   loggedIn = false;
 
   constructor() {
     this.context = new Context();
     this.loginPanel = new LoginPanel(this.context);
-    this.createButton();
+    this.reportButton = new ReportButton(this.context);
+    this.reportButton.onClick(() => this.reportIssue);
   }
 
   /**
@@ -51,19 +55,5 @@ export class Widget {
 
         return HttpRequest.post(url, data);
       });
-  }
-
-  /**
-   * Create report button.
-   */
-  private createButton(): void {
-    let reportButton = document.createElement('div');
-    reportButton.innerHTML = require('./widget.html');
-    let reportPanelClass = require('./widget.css').reportPanel;
-    reportButton.className = reportPanelClass;
-
-    reportButton.onclick = () => this.reportIssue();
-
-    document.body.appendChild(reportButton);
   }
 }

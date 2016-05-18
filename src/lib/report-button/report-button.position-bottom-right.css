@@ -1,0 +1,8 @@
+:local(.reportPanel) {
+  right: 1rem;
+  bottom: -1.7rem;
+}
+
+:local(.reportPanel):hover {
+  bottom: -0.2rem;
+}
