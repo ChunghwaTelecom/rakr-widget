@@ -1,5 +1,5 @@
 import {Widget} from './widget';
-import {Prompter} from './prompter';
+import {Prompter} from './utils/prompter';
 
 try {
   new Widget();

@@ -1,6 +1,6 @@
-import {HttpRequest} from './http-request';
-import {Context} from './context';
-import {Prompter} from './prompter';
+import {Context} from '../context';
+import {HttpRequest} from '../utils/http-request';
+import {Prompter} from '../utils/prompter';
 
 export class LoginPanel {
 

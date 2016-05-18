@@ -1,10 +1,10 @@
 import * as html2canvas from 'html2canvas';
 
-import {HttpRequest} from './http-request';
-import {LoginPanel} from './login-panel';
 import {Context} from './context';
-import {Prompter} from './prompter';
+import {LoginPanel} from './login-panel/login-panel';
 import {ReportButton} from './report-button/report-button';
+import {HttpRequest} from './utils/http-request';
+import {Prompter} from './utils/prompter';
 
 export class Widget {
   private context: Context;
