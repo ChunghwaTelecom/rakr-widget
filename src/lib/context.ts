@@ -9,10 +9,13 @@ export class Context {
   rakrUrl: string;
   clientId: string;
   display: Context.Display;
+  shortcuts: string[];
 
   constructor() {
     this.settleMandatoryArguments();
     this.parseDisplayArguments();
+
+    this.shortcuts = this.findArgumentsQueue('shortcut');
   }
 
   private settleMandatoryArguments(): void {
@@ -41,24 +44,23 @@ export class Context {
     let display = new Context.Display();
 
     // parse "position"
-    let positionArguments: string[] = this.findArgumentsQueue('position');
-    if (positionArguments.length > 0) {
-      let position = Context.Position[positionArguments[0]];
+    let positionValue = this.findArgument('position');
+    if (positionValue) {
+      let position = Context.Position[positionValue];
       if (position === undefined) {
-        console.warn(`Unknown position value: "${positionArguments[0]}".`);
+        console.warn(`Unknown position value: "${positionValue}".`);
       } else {
         display.position = position;
       }
     }
-
     if (display.position === undefined) {
       display.position = Context.Position.BottomRight;
     }
 
     // parse "theme"
-    let themeArguments: string[] = this.findArgumentsQueue('theme');
-    if (themeArguments.length > 0 && !!themeArguments[0]) {
-      display.theme = themeArguments[0].toLowerCase();
+    let theme = this.findArgument('theme');
+    if (!!theme) {
+      display.theme = theme.toLowerCase();
     } else {
       display.theme = 'dark';
     }
@@ -78,6 +80,15 @@ export class Context {
     }
 
     return [];
+  }
+
+  private findArgument(key: string): string {
+    let args: string[] = this.findArgumentsQueue(key);
+    if (args.length > 0) {
+      return args[0];
+    } else {
+      return undefined;
+    }
   }
 
   public resolveFullPath(path: string): string {

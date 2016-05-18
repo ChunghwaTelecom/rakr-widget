@@ -1,4 +1,5 @@
 import * as html2canvas from 'html2canvas';
+import * as mousetrap from 'mousetrap';
 
 import {Context} from './context';
 import {LoginPanel} from './login-panel/login-panel';
@@ -10,12 +11,17 @@ export class Widget {
   private context: Context;
   private reportButton: ReportButton;
   private loginPanel: LoginPanel;
-  
+
   loggedIn = false;
 
   constructor() {
     this.context = new Context();
+    if (this.context.shortcuts) {
+      mousetrap.bind(this.context.shortcuts, () => this.reportIssue());
+    }
+
     this.loginPanel = new LoginPanel(this.context);
+
     this.reportButton = new ReportButton(this.context);
     this.reportButton.onClick(() => this.reportIssue());
   }
