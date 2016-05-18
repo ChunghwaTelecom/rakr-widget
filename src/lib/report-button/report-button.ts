@@ -59,4 +59,12 @@ export class ReportButton {
   public onClick(onclick: (event: MouseEvent) => any) {
     this.reportButton.onclick = onclick;
   }
+
+  public show(): void {
+    this.reportButton.hidden = false;
+  }
+
+  public hide(): void {
+    this.reportButton.hidden = true;
+  }
 }

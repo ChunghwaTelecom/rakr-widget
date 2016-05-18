@@ -38,11 +38,15 @@ export class Widget {
         );
       }
     ).then((id) => {
-      let newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
-      if (!newWindow) {
-        Prompter.prompt('請允許開啟彈跳式視窗。');
-      }
-    });
+        let newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
+        if (!newWindow) {
+          Prompter.prompt('請允許開啟彈跳式視窗。');
+        }
+      })
+      .catch((reason) => {
+        console.warn(reason);
+        Prompter.prompt(`無法回報問題: ${reason}`);
+      });
   }
 
   /**
@@ -51,8 +55,12 @@ export class Widget {
    * @returns Promise which resolves with submitted snippet id.
    */
   private performReport(): Promise<string> {
+    this.reportButton.hide();
+
     return html2canvas(window.document.body)
       .then((canvas) => {
+        this.reportButton.show();
+
         let data = JSON.stringify({
           imageDataUrls: [canvas.toDataURL()]
         });
@@ -60,6 +68,10 @@ export class Widget {
         let url = this.context.resolveFullPath('/api/snippets');
 
         return HttpRequest.post(url, data);
+
+      }, (reason) => {
+        this.reportButton.show();
+        throw reason;
       });
   }
 }
