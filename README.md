@@ -13,6 +13,12 @@ Embed following snippet into your HTML.
   
   rakr('//localhost:3000', 'RAKR-YOUR_ID_HERE');
   //    \- rakr base url    \- rakr id 
+  
+  // customizations
+  rakr('position', 'TopRight');      // Availables: TopRight, BottomRight*, BottomLeft, TopLeft
+  rakr('theme', 'Dark');             // Availables: Dark*, Light
+  rakr('content', 'Report to Rakr')
+  rakr('shortcut', 'ctrl+4');
 </script>
 ```
 
