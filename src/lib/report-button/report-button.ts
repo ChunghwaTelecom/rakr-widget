@@ -13,7 +13,8 @@ export class ReportButton {
    */
   private createButton(): void {
     let reportButton: HTMLDivElement = document.createElement('div');
-    reportButton.innerHTML = require('./report-button.html');
+
+    reportButton.innerHTML = this.context.display.content;
 
     let classes = [];
     // base style class
