@@ -1,26 +1,28 @@
 @import "../theme/theme.dark.css";
 
-:local(.loginPanel) {
-  background-color: rgba( 176, 196, 222, 0.6);
-}
-
 :local(.loginPanel) #rakr-login-form {
-  color: var(--textColor);
-  background-color: var(--backgroundColor);
-  border-color: var(--borderColor);
-  box-shadow: 0.2rem 0.2rem 0.5rem rgb(176, 196, 222);
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor);
+  border-color: var(--rakrBorderColor);
 }
 
 :local(.loginPanel) input {
-  border: medium solid rgba(255, 255, 255, 0.5);
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor a(40%)); 
+  border-color: color(var(--rakrBorderColor) a(40%));
+}
+
+:local(.loginPanel) input:focus {
+  background-color: color(var(--rakrBorderColor) a(60%));
+  border-color: color(var(--rakrBorderColor) a(80%));
 }
 
 :local(.loginPanel) .button-set button {
-  color: var(--textColor);
-  border: medium solid rgba(255, 255, 255, 0.5);
+  background-color: var(--rakrBackgroundColor a(20%));
+  border-color: color(var(--rakrBorderColor) a(40%));
 }
 
 :local(.loginPanel) .button-set button:hover {
-  background-color: rgba(255, 255, 255, 0.2);
-  border: medium solid rgba(255, 255, 255, 0.75);
+  background-color: color(var(--rakrBorderColor) a(60%));
+  border-color: color(var(--rakrBorderColor) a(80%));
 }

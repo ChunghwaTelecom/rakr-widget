@@ -1,7 +1,7 @@
 @import "../theme/theme.light.css";
 
 :local(.reportPanel) {
-  color: var(--textColor);
-  background-color: var(--backgroundColor);
-  border-color: var(--borderColor);
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor);
+  border-color: var(--rakrBorderColor);
 }
