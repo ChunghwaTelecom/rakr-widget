@@ -9,10 +9,13 @@ export class Context {
   rakrUrl: string;
   clientId: string;
   display: Context.Display;
+  shortcuts: string[];
 
   constructor() {
     this.settleMandatoryArguments();
     this.parseDisplayArguments();
+
+    this.shortcuts = this.findArgumentsQueue('shortcut');
   }
 
   private settleMandatoryArguments(): void {
