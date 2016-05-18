@@ -1,0 +1,28 @@
+@import "../theme/theme.dark.css";
+
+:local(.loginPanel) #rakr-login-form {
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor);
+  border-color: var(--rakrBorderColor);
+}
+
+:local(.loginPanel) input {
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor a(40%)); 
+  border-color: color(var(--rakrBorderColor) a(40%));
+}
+
+:local(.loginPanel) input:focus {
+  background-color: color(var(--rakrBorderColor) a(60%));
+  border-color: color(var(--rakrBorderColor) a(80%));
+}
+
+:local(.loginPanel) .button-set button {
+  background-color: var(--rakrBackgroundColor a(20%));
+  border-color: color(var(--rakrBorderColor) a(40%));
+}
+
+:local(.loginPanel) .button-set button:hover {
+  background-color: color(var(--rakrBorderColor) a(60%));
+  border-color: color(var(--rakrBorderColor) a(80%));
+}

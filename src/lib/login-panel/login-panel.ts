@@ -1,6 +1,6 @@
-import {HttpRequest} from './http-request';
-import {Context} from './context';
-import {Prompter} from './prompter';
+import {Context} from '../context';
+import {HttpRequest} from '../utils/http-request';
+import {Prompter} from '../utils/prompter';
 
 export class LoginPanel {
 
@@ -17,10 +17,23 @@ export class LoginPanel {
     return new Promise((resolve, reject) => {
       let loginPanel = document.createElement('div');
       loginPanel.innerHTML = require('./login-panel.html');
-      loginPanel.className = require('./login-panel.css').loginPanel;
 
+      let classes = [];
+      // base style class
+      classes.push(require('./login-panel.css').loginPanel);
+
+      // theme style class
+      try {
+        classes.push(require(`./login-panel.theme.${this.context.display.theme}.css`).loginPanel);
+      } catch (e) {
+        console.warn(`Failed to load theme "${this.context.display.theme}".`, e);
+      }
+      loginPanel.className = classes.join(' ');
+
+      // attach to dom
       document.body.appendChild(loginPanel);
 
+      // bind submit event
       document.getElementById('rakr-login-form').onsubmit = (event) => {
         event.preventDefault();
 
@@ -35,6 +48,7 @@ export class LoginPanel {
         );
       };
 
+      // bind close event
       document.getElementById('rakr-login-close').onclick = () => {
         document.body.removeChild(loginPanel);
         reject();

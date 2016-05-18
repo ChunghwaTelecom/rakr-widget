@@ -1,20 +1,13 @@
 :local(.reportPanel) {
+  cursor: pointer;
   position: fixed;
   padding: 0.5rem;
-  right: 0;
-  bottom: -1.7rem;
   font-family: sans-serif;
   text-align: center;
-  color: #ddd;
-  background-color: #666;
-  border: medium solid #333;
+  border: medium solid;
   border-radius: 0.2rem 0.2rem 0 0;
   z-index: 10000;
   transition-property: all;
   transition-duration: 0.5s;
   transition-timing-function: ease-in;
-}
-
-:local(.reportPanel):hover {
-  bottom: -0.2rem;
 }
