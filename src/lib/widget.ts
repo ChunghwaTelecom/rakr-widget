@@ -17,7 +17,7 @@ export class Widget {
     this.context = new Context();
     this.loginPanel = new LoginPanel(this.context);
     this.reportButton = new ReportButton(this.context);
-    this.reportButton.onClick(() => this.reportIssue);
+    this.reportButton.onClick(() => this.reportIssue());
   }
 
   /**
