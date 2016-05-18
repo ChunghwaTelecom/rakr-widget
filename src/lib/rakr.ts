@@ -5,5 +5,6 @@ try {
   new Widget();
 
 } catch (e) {
+  console.error(e);
   Prompter.prompt(e.message);
 }
