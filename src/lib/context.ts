@@ -53,16 +53,17 @@ export class Context {
         display.position = position;
       }
     }
-    if (display.position === undefined) {
-      display.position = Context.Position.BottomRight;
-    }
 
     // parse "theme"
     let theme = this.findArgument('theme');
     if (!!theme) {
       display.theme = theme.toLowerCase();
-    } else {
-      display.theme = 'dark';
+    }
+
+    // parse "content"
+    let content = this.findArgument('content');
+    if (content) {
+      display.content = content;
     }
 
     // done
@@ -105,7 +106,8 @@ export module Context {
   }
 
   export class Display {
-    position: Context.Position;
-    theme: string;
+    position: Context.Position = Context.Position.BottomRight;
+    theme: string = 'dark';
+    content: string = '回報到 Rakr';
   }
 }
