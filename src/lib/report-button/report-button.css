@@ -1,4 +1,5 @@
 :local(.reportPanel) {
+  cursor: pointer;
   position: fixed;
   padding: 0.5rem;
   font-family: sans-serif;
