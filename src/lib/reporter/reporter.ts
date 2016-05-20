@@ -1,7 +1,7 @@
-import * as html2canvas from 'html2canvas';
-
 import {Context} from '../context';
 import {HttpRequest} from '../utils/http-request';
+
+import {ScreenCapturer} from './screen-capturer';
 
 export class Reporter {
 
@@ -9,7 +9,7 @@ export class Reporter {
   }
 
   report(): Promise<String> {
-    return html2canvas(window.document.body)
+    return new ScreenCapturer().capture()
       .then((canvas) => {
 
         let data = JSON.stringify({
