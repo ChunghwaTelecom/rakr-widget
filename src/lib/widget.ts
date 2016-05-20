@@ -1,9 +1,9 @@
-import * as html2canvas from 'html2canvas';
 import * as mousetrap from 'mousetrap';
 
 import {Context} from './context';
 import {LoginPanel} from './login-panel/login-panel';
 import {ReportButton} from './report-button/report-button';
+import {Reporter} from './reporter/reporter';
 import {HttpRequest} from './utils/http-request';
 import {Prompter} from './utils/prompter';
 
@@ -11,6 +11,7 @@ export class Widget {
   private context: Context;
   private reportButton: ReportButton;
   private loginPanel: LoginPanel;
+  private reporter: Reporter;
 
   loggedIn = false;
 
@@ -24,6 +25,8 @@ export class Widget {
 
     this.reportButton = new ReportButton(this.context);
     this.reportButton.onClick(() => this.reportIssue());
+
+    this.reporter = new Reporter(this.context);
   }
 
   /**
@@ -38,11 +41,11 @@ export class Widget {
         );
       }
     ).then((id) => {
-        let newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
-        if (!newWindow) {
-          Prompter.prompt('請允許開啟彈跳式視窗。');
-        }
-      })
+      let newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
+      if (!newWindow) {
+        Prompter.prompt('請允許開啟彈跳式視窗。');
+      }
+    })
       .catch((reason) => {
         console.warn(reason);
         Prompter.prompt(`無法回報問題: ${reason}`);
@@ -57,21 +60,15 @@ export class Widget {
   private performReport(): Promise<string> {
     this.reportButton.hide();
 
-    return html2canvas(window.document.body)
-      .then((canvas) => {
+    return this.reporter.report().then(
+      (snippetId) => {
         this.reportButton.show();
-
-        let data = JSON.stringify({
-          imageDataUrls: [canvas.toDataURL()]
-        });
-
-        let url = this.context.resolveFullPath('/api/snippets');
-
-        return HttpRequest.post(url, data);
-
-      }, (reason) => {
+        return snippetId;
+      },
+      (error) => {
         this.reportButton.show();
-        throw reason;
-      });
+        throw error;
+      }
+    );
   }
 }
