@@ -5,11 +5,13 @@ import {Snippet} from './snippet.ts'
 
 import {ScreenCapturer} from './screen-capturer';
 import {ClientInfo} from './client-info';
+import {ErrorCollector} from './error-collector';
 
 export class Reporter {
 
-  private screenCapturer = new ScreenCapturer()
-  private clientInfo = new ClientInfo()
+  private screenCapturer = new ScreenCapturer();
+  private clientInfo = new ClientInfo();
+  private errorCollector = new ErrorCollector();
 
   constructor(private context: Context) {
   }
@@ -26,6 +28,11 @@ export class Reporter {
       this.clientInfo.get()
         .then((clientInfo) => {
           snippet.clientInfo = clientInfo;
+        })
+      ,
+      this.errorCollector.getErrors()
+        .then((errors) => {
+          snippet.errors = errors;
         })
     ]).then(() => {
       let url = this.context.resolveFullPath('/api/snippets');
