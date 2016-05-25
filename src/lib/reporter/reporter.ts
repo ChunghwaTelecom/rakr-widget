@@ -3,9 +3,9 @@ import {HttpRequest} from '../utils/http-request';
 
 import {Snippet} from './snippet.ts'
 
-import {ScreenCapturer} from './screen-capturer';
-import {ClientInfo} from './client-info';
-import {ErrorCollector} from './error-collector';
+import {ScreenCapturer} from '../collector/screen-capturer';
+import {ClientInfo} from '../collector/client-info';
+import {ErrorCollector} from '../collector/error-collector';
 
 export class Reporter {
 
