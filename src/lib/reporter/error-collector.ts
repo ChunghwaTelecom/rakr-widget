@@ -4,7 +4,8 @@ import {ErrorDetail} from './snippet';
 
 export class ErrorCollector {
 
-  private errors: ErrorDetail[] = [];
+  private errors: ErrorDetail[] = [undefined, undefined, undefined, undefined, undefined, undefined];
+  private errorsLimit = 5;
 
   constructor() {
     let originErrorHandler: ErrorEventHandler;
@@ -21,15 +22,16 @@ export class ErrorCollector {
             detail.message = message;
             detail.frames = frames;
 
-            this.errors.push(detail);
+            this.logError(detail);
           })
+
       } else {
         let detail = new ErrorDetail();
         detail.timestamp = Date.now();
         detail.message = message;
         detail.frames = []; // TODO find out how to privide more infomation
 
-        this.errors.push(detail);
+        this.logError(detail);
       }
 
       if (originErrorHandler) {
@@ -38,6 +40,18 @@ export class ErrorCollector {
 
       return false;
     };
+  }
+
+  public logError(error: ErrorDetail) {
+    this.errors.push(error);
+
+    while (this.errors.length > this.errorsLimit) {
+      this.errors.shift();
+    }
+  }
+
+  public setErrorsLimit(errorsLimit) {
+    this.errorsLimit = errorsLimit;
   }
 
   public getErrors(): Promise<ErrorDetail[]> {
