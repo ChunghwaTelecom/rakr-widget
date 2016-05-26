@@ -28,7 +28,7 @@ export class HttpRequest {
       xhr.withCredentials = true;
 
       xhr.onreadystatechange = function (event) {
-        if (xhr.readyState === XMLHttpRequest.DONE) {
+        if (xhr.readyState === 4 /* XMLHttpRequest.DONE */) {
           if (xhr.status >= 200 && xhr.status < 300) {
             resolve(xhr.responseText);
 
