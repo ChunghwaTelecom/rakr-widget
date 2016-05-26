@@ -1,5 +1,6 @@
 import * as StackTrace from 'stacktrace-js';
-import {StackFrame} from 'stacktrace-js';
+import { StackFrame } from 'stacktrace-js';
+import { ErrorDetail } from './error-detail';
 
 export class ErrorCollector {
 
@@ -58,10 +59,4 @@ export class ErrorCollector {
       resolve(this.errors)
     });
   }
-}
-
-export class ErrorDetail {
-  timestamp: number;
-  message: string;
-  frames: StackTrace.StackFrame[];
 }

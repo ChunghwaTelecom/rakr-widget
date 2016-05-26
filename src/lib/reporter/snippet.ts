@@ -1,4 +1,4 @@
-import { ErrorDetail } from '../collector/error-collector';
+import { ErrorDetail } from '../collector/error-detail';
 
 export class Snippet {
   clientInfo: any;
