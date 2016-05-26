@@ -3,7 +3,7 @@ import {StackFrame} from 'stacktrace-js';
 
 export class ErrorCollector {
 
-  private errors: ErrorDetail[] = [undefined, undefined, undefined, undefined, undefined, undefined];
+  private errors: ErrorDetail[] = [];
   private errorsLimit = 5;
 
   constructor() {
