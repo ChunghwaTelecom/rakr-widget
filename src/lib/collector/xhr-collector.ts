@@ -1,4 +1,5 @@
 import { XhrLog } from './xhr-log';
+import { Context } from '../context';
 
 export interface XhrCollector {
   get(): Promise<XhrLog[]>;
@@ -9,7 +10,7 @@ export class XHookXhrCollector implements XhrCollector {
   private logs: XhrLog[] = [];
   private logsLimit = 10;
 
-  constructor() {
+  constructor(context: Context) {
     // import ... from ... clause will cause the xhook been load eagerly. 
     let xhook = <XHookStatic>require('xhook').xhook;
 
@@ -19,19 +20,24 @@ export class XHookXhrCollector implements XhrCollector {
     });
 
     xhook.after((request, response) => {
-      let now = new Date().getTime();
-      let log = new XhrLog();
+      if (request.url.startsWith(context.rakrUrl)) {
+        // skip rakr requests
 
-      log.created = request['_xhrCreated'];
-      log.duration = now - log.created;
+      } else {
+        let now = new Date().getTime();
+        let log = new XhrLog();
 
-      log.headers = request.headers;
-      log.method = request.method;
-      log.url = request.url;
+        log.created = request['_xhrCreated'];
+        log.duration = now - log.created;
 
-      log.status = response.status;
+        log.headers = request.headers;
+        log.method = request.method;
+        log.url = request.url;
 
-      this.log(log);
+        log.status = response.status;
+
+        this.log(log);
+      }
     });
   }
 

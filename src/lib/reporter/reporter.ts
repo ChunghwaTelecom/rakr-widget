@@ -20,7 +20,7 @@ export class Reporter {
       if (!window['Zone']) {
         // FIXME make it compatible with Angular 2
         console.log('Seems not runnings in Zone, using XHookXhrCollector to collect XHR information.');
-        this.xhrCollector = new XHookXhrCollector();
+        this.xhrCollector = new XHookXhrCollector(context);
       }
     }, 1000);
   }
