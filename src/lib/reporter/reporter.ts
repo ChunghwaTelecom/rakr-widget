@@ -7,6 +7,7 @@ import {ScreenCapturer} from '../collector/screen-capturer';
 import {ClientInfo} from '../collector/client-info';
 import {ErrorCollector} from '../collector/error-collector';
 import {XhrCollector, NopXhrCollector, XHookXhrCollector} from '../collector/xhr-collector';
+import {ConsoleCollector} from '../collector/console-collector';
 
 export class Reporter {
 
@@ -14,6 +15,7 @@ export class Reporter {
   private clientInfo = new ClientInfo();
   private errorCollector = new ErrorCollector();
   private xhrCollector: XhrCollector = new NopXhrCollector();
+  private consoleCollector: ConsoleCollector = new ConsoleCollector();
 
   constructor(private context: Context) {
     setTimeout(() => {
@@ -48,6 +50,11 @@ export class Reporter {
         .then((xhrLogs) => {
           snippet.xhrs = xhrLogs;
         })
+      ,
+      this.consoleCollector.getLogs()
+      .then((logs) => {
+        snippet.logs = logs;
+      })
     ]).then(() => {
       let url = this.context.resolveFullPath('/api/snippets');
       let data = JSON.stringify(snippet);
