@@ -1,3 +1,4 @@
+import {Context} from '../context';
 import * as StackTrace from 'stacktrace-js';
 import { StackFrame } from 'stacktrace-js';
 import { ErrorDetail } from './error-detail';
@@ -7,7 +8,7 @@ export class ErrorCollector {
   private errors: ErrorDetail[] = [];
   private errorsLimit = 5;
 
-  constructor() {
+  constructor(_context: Context) {
     let originErrorHandler: ErrorEventHandler;
     if (window.onerror) {
       originErrorHandler = window.onerror;
@@ -40,6 +41,8 @@ export class ErrorCollector {
 
       return false;
     };
+
+    _context.exposeFunction('logError', (error: ErrorDetail) => this.logError(error));
   }
 
   public logError(error: ErrorDetail) {

@@ -11,13 +11,19 @@ import {ConsoleCollector} from '../collector/console-collector';
 
 export class Reporter {
 
-  private screenCapturer = new ScreenCapturer();
-  private clientInfo = new ClientInfo();
-  private errorCollector = new ErrorCollector();
-  private xhrCollector: XhrCollector = new NopXhrCollector();
-  private consoleCollector: ConsoleCollector = new ConsoleCollector();
+  private screenCapturer: ScreenCapturer;
+  private clientInfo: ClientInfo;
+  private errorCollector: ErrorCollector;
+  private xhrCollector: XhrCollector;
+  private consoleCollector: ConsoleCollector;
 
   constructor(private context: Context) {
+    this.screenCapturer = new ScreenCapturer();
+    this.clientInfo = new ClientInfo();
+    this.errorCollector = new ErrorCollector(context);
+    this.xhrCollector = new NopXhrCollector();
+    this.consoleCollector = new ConsoleCollector(context);
+
     setTimeout(() => {
       if (!window['Zone']) {
         // FIXME make it compatible with Angular 2
