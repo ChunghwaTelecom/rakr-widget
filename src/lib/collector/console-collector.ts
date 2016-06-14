@@ -1,13 +1,17 @@
+import {Context} from '../context';
+
 export class ConsoleCollector {
 
   private logs: LogEntry[] = [];
   private logsLimit = 50;
 
-  constructor() {
+  constructor(_context: Context) {
     this.warpLogFunction('log', LogLevel.LOG);
     this.warpLogFunction('info', LogLevel.INFO);
     this.warpLogFunction('warn', LogLevel.WARN);
     this.warpLogFunction('error', LogLevel.ERROR);
+
+    _context.exposeFunction('log', (level: LogLevel, args: any[]) => this.log(level, args));
   }
 
   private warpLogFunction(funcationName: string, level: LogLevel) {

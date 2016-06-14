@@ -95,6 +95,16 @@ export class Context {
   public resolveFullPath(path: string): string {
     return this.rakrUrl + path;
   }
+
+  /**
+   * Add function to the exposed object, say {@code window.rakr} by default.
+   * 
+   * @param name function name.
+   * @param fn exposed function.
+   */
+  public exposeFunction(name: string, fn: Function): void {
+    window[window.RakrWidgetObject][name] = fn;
+  }
 }
 
 export module Context {
