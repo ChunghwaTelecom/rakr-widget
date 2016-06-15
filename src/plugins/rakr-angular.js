@@ -38,7 +38,7 @@
   function exceptionHandler($log) {
     return function rakrExceptionHandler(exception, cause) {
       var rakr = getRakr();
-      if (rakr) {
+      if (rakr && rakr['logError']) {
         rakr['logError'](exception);
       }
       $log.error(exception, cause);
