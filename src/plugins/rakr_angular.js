@@ -5,8 +5,8 @@
 
   angular.module('ngRakr', [])
     .config(['$provide', logProvider])
-    .factory('$exceptionHandler', ['$log'], exceptionHandler);
-    
+    .factory('$exceptionHandler', ['$log', exceptionHandler]);
+
   function getRakr() {
     var rakr = window['RakrWidgetObject'];
     if (rakr) {
