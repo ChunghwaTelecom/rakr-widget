@@ -1,4 +1,7 @@
 import * as mousetrap from 'mousetrap';
+// TODO: Make Mousetrap not to export as global object hence inferning client application
+// This is a dirty workaround to make Widget compatible with NTA projects
+require('mousetrap/plugins/global-bind/mousetrap-global-bind');
 
 import {Context} from './context';
 import {LoginPanel} from './login-panel/login-panel';
