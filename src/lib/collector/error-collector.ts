@@ -15,25 +15,7 @@ export class ErrorCollector {
     }
 
     window.onerror = (message, source, lineNumber, columnNumber, error) => {
-      if (error instanceof Error) {
-        StackTrace.fromError(error).then(
-          (frames) => {
-            let detail = new ErrorDetail();
-            detail.timestamp = Date.now();
-            detail.message = message;
-            detail.frames = frames;
-
-            this.logError(detail);
-          })
-
-      } else {
-        let detail = new ErrorDetail();
-        detail.timestamp = Date.now();
-        detail.message = message;
-        detail.frames = []; // TODO find out how to privide more infomation
-
-        this.logError(detail);
-      }
+      this.logError(error, message);
 
       if (originErrorHandler) {
         originErrorHandler(message, source, lineNumber, columnNumber, error);
@@ -42,10 +24,26 @@ export class ErrorCollector {
       return false;
     };
 
-    _context.exposeFunction('logError', (error: ErrorDetail) => this.logError(error));
+    _context.exposeFunction('logError', (error: Error, message?: string) => this.logError(error, message));
   }
 
-  public logError(error: ErrorDetail) {
+  public logError(error: Error, message?: string) {
+    let detail = new ErrorDetail();
+    detail.timestamp = Date.now();
+    detail.message = message;
+
+    StackTrace.fromError(error).then(
+      (frames) => {
+        detail.frames = frames;
+        this.appendError(detail);
+      },
+      () => {
+        detail.frames = []; // TODO find out how to privide more infomation
+        this.appendError(detail);
+      })
+  }
+
+  private appendError(error: ErrorDetail) {
     this.errors.push(error);
 
     while (this.errors.length > this.errorsLimit) {
