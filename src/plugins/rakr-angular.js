@@ -39,7 +39,7 @@
     return function rakrExceptionHandler(exception, cause) {
       var rakr = getRakr();
       if (rakr && rakr['logError']) {
-        rakr['logError'](exception);
+        rakr['logError'](exception, cause);
       }
       $log.error(exception, cause);
     };
