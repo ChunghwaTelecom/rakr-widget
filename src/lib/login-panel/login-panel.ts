@@ -51,7 +51,7 @@ export class LoginPanel {
       // bind close event
       document.getElementById('rakr-login-close').onclick = () => {
         document.body.removeChild(loginPanel);
-        reject();
+        reject('取消登入');
       };
     });
   }
