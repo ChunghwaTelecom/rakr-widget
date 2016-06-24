@@ -44,7 +44,7 @@ export class Widget {
         );
       }
     ).then((id) => {
-      let newWindow = window.open(this.context.resolveFullPath(`/issues/new/5?snippet=${id}`));
+      let newWindow = window.open(this.context.resolveFullPath(`${this.context.newIssuePath}?snippet=${id}`));
       if (!newWindow) {
         Prompter.prompt('請允許開啟彈跳式視窗。');
       }

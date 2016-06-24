@@ -1,3 +1,5 @@
+const DEFAULT_NEW_ISSUE_PATH = '/issues/new/1';
+
 interface RakrWindow extends Window {
   RakrWidgetObject: string;
 }
@@ -6,7 +8,9 @@ declare var window: RakrWindow;
 
 export class Context {
 
+
   rakrUrl: string;
+  newIssuePath: string;
   clientId: string;
   display: Context.Display;
   shortcuts: string[];
@@ -16,6 +20,7 @@ export class Context {
     this.parseDisplayArguments();
 
     this.shortcuts = this.findArgumentsQueue('shortcut');
+    this.newIssuePath = this.findArgument('newIssuePath') || DEFAULT_NEW_ISSUE_PATH;
   }
 
   private settleMandatoryArguments(): void {
