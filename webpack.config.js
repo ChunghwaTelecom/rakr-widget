@@ -21,6 +21,10 @@ module.exports = {
         loader: 'awesome-typescript-loader?tsconfig=src/tsconfig.json'
       },
       {
+        test: /\.json$/,
+        loader: 'json-loader'
+      },
+      {
         test: /\.html$/,
         loader: 'html-loader'
       },
@@ -36,5 +40,8 @@ module.exports = {
   output: {
     path: 'dist',
     filename: '[name].js'
+  },
+  node: {
+    net: 'empty'
   }
 };
