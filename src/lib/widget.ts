@@ -34,6 +34,25 @@ export class Widget {
     this.reportButton = new ReportButton(this.context);
     this.reportButton.onClick(() => this.reportIssue());
 
+    this.loginPanel.isLoggedIn().then(
+      () => this.updateNotification(),
+      () => {
+        this.reportButton.loginButtonShow();
+        this.reportButton.loginButtonOnClick(
+          (event) => {
+            event.stopPropagation();
+
+            this.loginPanel.login().then(
+              () => {
+                this.reportButton.loginButtonHide();
+                this.updateNotification();
+              },
+              (message) => Prompter.prompt(message)
+            )
+          });
+      }
+    )
+
     this.reporter = new Reporter(this.context);
 
     let webSocketRoot = document.head.querySelector('[name=backend-websocket-root]') ?
