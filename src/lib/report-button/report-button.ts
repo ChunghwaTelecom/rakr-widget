@@ -78,7 +78,7 @@ export class ReportButton {
     let loginButton = document.createElement('div');
     loginButton.classList.add('login');
     loginButton.title = '登入 Rakr';
-    loginButton.innerHTML = '[ ]';
+    loginButton.innerHTML = require('./ic_account_circle_black_24px.svg');
     loginButton.style.display = 'none';
     reportButton.appendChild(loginButton);
     this.loginButton = loginButton;
