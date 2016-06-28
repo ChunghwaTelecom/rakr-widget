@@ -1,3 +1,6 @@
+import * as Stomp from 'stompjs';
+import * as SockJS from 'sockjs-client';
+
 import * as mousetrap from 'mousetrap';
 // TODO: Make Mousetrap not to export as global object hence inferning client application
 // This is a dirty workaround to make Widget compatible with NTA projects
@@ -11,6 +14,8 @@ import {HttpRequest} from './utils/http-request';
 import {Prompter} from './utils/prompter';
 
 export class Widget {
+  private socket: any;
+
   private context: Context;
   private reportButton: ReportButton;
   private loginPanel: LoginPanel;
@@ -30,6 +35,16 @@ export class Widget {
     this.reportButton.onClick(() => this.reportIssue());
 
     this.reporter = new Reporter(this.context);
+
+    let webSocketRoot = document.head.querySelector('[name=backend-websocket-root]') ?
+      (<HTMLMetaElement>document.head.querySelector('[name=backend-websocket-root]')).content :
+      this.context.resolveFullPath('/websocket/issues');
+    this.socket = new SockJS(webSocketRoot);
+    let stompClient = Stomp.over(this.socket);
+    stompClient.connect({}, function (frame) {
+      stompClient.subscribe('/topic/issues',
+      );
+    });
   }
 
   /**
