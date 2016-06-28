@@ -60,12 +60,13 @@ export class Widget {
       this.context.resolveFullPath('/websocket/issues');
     this.socket = new SockJS(webSocketRoot);
     let stompClient = Stomp.over(this.socket);
+    let _self = this;
     stompClient.connect({}, function (frame) {
       stompClient.subscribe('/topic/issues',
         // TODO since we cannot filter message by user right now,
         //      issueing an full query again.
         // FIXME popup notification message (related to user).
-        result => this.updateNotification()
+        result => _self.updateNotification()
       );
     });
   }
