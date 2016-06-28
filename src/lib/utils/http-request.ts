@@ -6,18 +6,18 @@ export class HttpRequest {
   /**
    * POST request to specified url with specified data.
    */
-  public static post(url: string, data: string): Promise<String> {
+  public static post(url: string, data: string): Promise<string> {
     return HttpRequest.execute('POST', url, data);
   }
 
   /**
    * Issue GET request to specified url.
    */
-  public static get(url: string): Promise<String> {
+  public static get(url: string): Promise<string> {
     return HttpRequest.execute('GET', url);
   }
 
-  private static execute(method: string, url: string, data?: string): Promise<String> {
+  private static execute(method: string, url: string, data?: string): Promise<string> {
     return new Promise((resolve, reject) => {
       var xhr = new XMLHttpRequest();
       xhr.open(method, url, true);
