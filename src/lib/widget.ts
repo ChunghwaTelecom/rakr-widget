@@ -62,8 +62,25 @@ export class Widget {
     let stompClient = Stomp.over(this.socket);
     stompClient.connect({}, function (frame) {
       stompClient.subscribe('/topic/issues',
+        // TODO since we cannot filter message by user right now,
+        //      issueing an full query again.
+        // FIXME popup notification message (related to user).
+        result => this.updateNotification()
       );
     });
+  }
+
+  private updateNotification() {
+    HttpRequest.get(this.context.resolveFullPath('/api/issues/notification')).then(
+      (result) => {
+        let obj = JSON.parse(result);
+        let created = obj.author;
+        let related = obj.assignee;
+
+        this.reportButton.setCreatedIssuesCount(created);
+        this.reportButton.setRelatedIssuesCount(related);
+      }
+    );
   }
 
   /**
