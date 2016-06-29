@@ -1,6 +1,6 @@
-@import "../theme/theme.light.css";
+@import "../theme/theme.dark.css";
 
-:local(.reportPanel) {
+:local(.widgetPanel) {
   color: var(--rakrTextColor);
   background-color: var(--rakrBackgroundColor);
   border-color: var(--rakrBorderColor);

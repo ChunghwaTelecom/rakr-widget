@@ -1,6 +1,6 @@
 import {Context} from '../context';
 
-export class ReportButton {
+export class WidgetPanel {
 
   private reportButton: HTMLDivElement;
   private createdIssuesBadge: HTMLDivElement;
@@ -8,47 +8,47 @@ export class ReportButton {
   private loginButton: HTMLDivElement;
 
   constructor(private context: Context) {
-    this.createButton();
+    this.createPanel();
   }
 
   /**
    * Create report button.
    */
-  private createButton(): void {
+  private createPanel(): void {
     let reportButton: HTMLDivElement = document.createElement('div');
 
     reportButton.innerHTML = this.context.display.content;
 
     let classes = [];
     // base style class
-    classes.push(require('./report-button.css').reportPanel);
+    classes.push(require('./widget-panel.css').widgetPanel);
 
     // position style class
     let positionClass;
     switch (this.context.display.position) {
       case Context.Position.BottomLeft:
-        positionClass = require('./report-button.position.bottom-left.css').reportPanel;
+        positionClass = require('./widget-panel.position.bottom-left.css').widgetPanel;
         break;
 
       case Context.Position.TopLeft:
-        positionClass = require('./report-button.position.top-left.css').reportPanel;
+        positionClass = require('./widget-panel.position.top-left.css').widgetPanel;
         break;
 
       case Context.Position.TopRight:
-        positionClass = require('./report-button.position.top-right.css').reportPanel;
+        positionClass = require('./widget-panel.position.top-right.css').widgetPanel;
         break;
 
       case Context.Position.BottomRight:
       /* fallthrough */
       default:
-        positionClass = require('./report-button.position.bottom-right.css').reportPanel;
+        positionClass = require('./widget-panel.position.bottom-right.css').widgetPanel;
     }
 
     classes.push(positionClass)
 
     // theme style class
     try {
-      classes.push(require(`./report-button.theme.${this.context.display.theme}.css`).reportPanel);
+      classes.push(require(`./widget-panel.theme.${this.context.display.theme}.css`).widgetPanel);
     } catch (e) {
       console.warn(`Failed to load theme "${this.context.display.theme}".`, e);
     }
@@ -86,7 +86,7 @@ export class ReportButton {
     this.reportButton = reportButton;
   }
 
-  public onClick(onclick: (event: MouseEvent) => any) {
+  public reportButtonOnClick(onclick: (event: MouseEvent) => any) {
     this.reportButton.onclick = onclick;
   }
 

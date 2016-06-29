@@ -8,7 +8,7 @@ require('mousetrap/plugins/global-bind/mousetrap-global-bind');
 
 import {Context} from './context';
 import {LoginPanel} from './login-panel/login-panel';
-import {ReportButton} from './report-button/report-button';
+import {WidgetPanel} from './widget-panel/widget-panel';
 import {Reporter} from './reporter/reporter';
 import {HttpRequest} from './utils/http-request';
 import {Prompter} from './utils/prompter';
@@ -18,7 +18,7 @@ export class Widget {
   private socket: any;
 
   private context: Context;
-  private reportButton: ReportButton;
+  private widgetPanel: WidgetPanel;
   private loginPanel: LoginPanel;
   private reporter: Reporter;
   private windowOpener: WindowOpener;
@@ -35,20 +35,20 @@ export class Widget {
 
     this.loginPanel = new LoginPanel(this.context);
 
-    this.reportButton = new ReportButton(this.context);
-    this.reportButton.onClick(() => this.reportIssue());
+    this.widgetPanel = new WidgetPanel(this.context);
+    this.widgetPanel.reportButtonOnClick(() => this.reportIssue());
 
     this.loginPanel.isLoggedIn().then(
       () => this.updateNotification(),
       () => {
-        this.reportButton.loginButtonShow();
-        this.reportButton.loginButtonOnClick(
+        this.widgetPanel.loginButtonShow();
+        this.widgetPanel.loginButtonOnClick(
           (event) => {
             event.stopPropagation();
 
             this.loginPanel.login().then(
               () => {
-                this.reportButton.loginButtonHide();
+                this.widgetPanel.loginButtonHide();
                 this.updateNotification();
               },
               (message) => Prompter.prompt(message)
@@ -56,13 +56,13 @@ export class Widget {
           });
       }
     )
-    this.reportButton.relatedIssuesBadgeOnClick(
+    this.widgetPanel.relatedIssuesBadgeOnClick(
       (event) => {
         event.stopPropagation();
         this.windowOpener.openRakr('/issues?query=assigned_to_me');
       }
     );
-    this.reportButton.createdIssuesBadgeOnClick(
+    this.widgetPanel.createdIssuesBadgeOnClick(
       (event) => {
         event.stopPropagation();
         this.windowOpener.openRakr('/issues?query=created_by_me');
@@ -94,8 +94,8 @@ export class Widget {
         let created = obj.author;
         let related = obj.assignee;
 
-        this.reportButton.setCreatedIssuesCount(created);
-        this.reportButton.setRelatedIssuesCount(related);
+        this.widgetPanel.setCreatedIssuesCount(created);
+        this.widgetPanel.setRelatedIssuesCount(related);
       }
     );
   }
@@ -126,15 +126,15 @@ export class Widget {
    * @returns Promise which resolves with submitted snippet id.
    */
   private performReport(): Promise<string> {
-    this.reportButton.hide();
+    this.widgetPanel.hide();
 
     return this.reporter.report().then(
       (snippetId) => {
-        this.reportButton.show();
+        this.widgetPanel.show();
         return snippetId;
       },
       (error) => {
-        this.reportButton.show();
+        this.widgetPanel.show();
         throw error;
       }
     );
