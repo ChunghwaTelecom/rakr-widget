@@ -94,6 +94,14 @@ export class ReportButton {
     this.loginButton.onclick = onclick;
   }
 
+  public relatedIssuesBadgeOnClick(onclick: (event: MouseEvent) => any) {
+    this.relatedIssuesBadge.onclick = onclick;
+  }
+
+  public createdIssuesBadgeOnClick(onclick: (event: MouseEvent) => any) {
+    this.createdIssuesBadge.onclick = onclick;
+  }
+
   public loginButtonShow() {
     this.loginButton.style.display = null;
   }

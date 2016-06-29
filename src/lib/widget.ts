@@ -31,6 +31,8 @@ export class Widget {
       mousetrap.bind(this.context.shortcuts, () => this.reportIssue());
     }
 
+    this.windowOpener = new WindowOpener(this.context);
+
     this.loginPanel = new LoginPanel(this.context);
 
     this.reportButton = new ReportButton(this.context);
@@ -54,8 +56,18 @@ export class Widget {
           });
       }
     )
-
-    this.windowOpener = new WindowOpener(this.context);
+    this.reportButton.relatedIssuesBadgeOnClick(
+      (event) => {
+        event.stopPropagation();
+        this.windowOpener.openRakr('/issues?query=assigned_to_me');
+      }
+    );
+    this.reportButton.createdIssuesBadgeOnClick(
+      (event) => {
+        event.stopPropagation();
+        this.windowOpener.openRakr('/issues?query=created_by_me');
+      }
+    );
 
     this.reporter = new Reporter(this.context);
 
