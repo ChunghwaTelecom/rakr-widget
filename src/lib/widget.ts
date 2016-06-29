@@ -12,6 +12,7 @@ import {ReportButton} from './report-button/report-button';
 import {Reporter} from './reporter/reporter';
 import {HttpRequest} from './utils/http-request';
 import {Prompter} from './utils/prompter';
+import {WindowOpener} from './utils/window-opener';
 
 export class Widget {
   private socket: any;
@@ -20,6 +21,7 @@ export class Widget {
   private reportButton: ReportButton;
   private loginPanel: LoginPanel;
   private reporter: Reporter;
+  private windowOpener: WindowOpener;
 
   loggedIn = false;
 
@@ -52,6 +54,8 @@ export class Widget {
           });
       }
     )
+
+    this.windowOpener = new WindowOpener(this.context);
 
     this.reporter = new Reporter(this.context);
 
@@ -95,13 +99,10 @@ export class Widget {
           () => this.performReport()
         );
       }
-    ).then((id) => {
-      let newWindow = window.open(this.context.resolveFullPath(`${this.context.newIssuePath}?snippet=${id}`));
-      if (!newWindow) {
-        Prompter.prompt('請允許開啟彈跳式視窗。');
-      }
-    })
-      .catch((reason) => {
+    ).then(
+      (id) => this.windowOpener.openRakr(this.context.newIssuePath, { snippet: id })
+    ).catch(
+      (reason) => {
         console.warn(reason);
         Prompter.prompt(`無法回報問題: ${reason}`);
       });
