@@ -1,0 +1,13 @@
+@import "../theme/theme.light.css";
+
+:local(.widgetPanel) {
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor);
+  border-color: var(--rakrBorderColor);
+}
+
+:local(.widgetPanel) .report {
+  color: var(--rakrTextColor);
+  background-color: var(--rakrBackgroundColor);
+  border-color: var(--rakrBorderColor);
+}

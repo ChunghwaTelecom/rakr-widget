@@ -14,6 +14,13 @@ export class LoginPanel {
    * Popup login panel for performing login.
    */
   public login() {
+    return this.isLoggedIn().then(
+      () => { },
+      () => this.popupPanelForLogin()
+    );
+  }
+
+  private popupPanelForLogin() {
     return new Promise((resolve, reject) => {
       let loginPanel = document.createElement('div');
       loginPanel.innerHTML = require('./login-panel.html');
