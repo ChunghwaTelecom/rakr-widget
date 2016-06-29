@@ -1,6 +1,10 @@
 import * as Stomp from 'stompjs';
 import * as SockJS from 'sockjs-client';
 
+// restore what JSON3 (as a transitive dependency from sockjs-client) did to JSON object 
+window['JSON3'] && window['JSON3']['noConflict'] &&
+typeof window['JSON3']['noConflict'] === 'function' && window['JSON3']['noConflict']();
+
 import * as mousetrap from 'mousetrap';
 // TODO: Make Mousetrap not to export as global object hence inferning client application
 // This is a dirty workaround to make Widget compatible with NTA projects
