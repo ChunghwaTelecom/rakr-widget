@@ -2,7 +2,9 @@ import {Context} from '../context';
 
 export class WidgetPanel {
 
-  private reportButton: HTMLDivElement;
+  private widgetPanel: HTMLDivElement;
+
+  private reportButton: HTMLButtonElement;
   private createdIssuesBadge: HTMLDivElement;
   private relatedIssuesBadge: HTMLDivElement;
   private loginButton: HTMLDivElement;
@@ -15,9 +17,7 @@ export class WidgetPanel {
    * Create report button.
    */
   private createPanel(): void {
-    let reportButton: HTMLDivElement = document.createElement('div');
-
-    reportButton.innerHTML = this.context.display.content;
+    let widgetPanel: HTMLDivElement = document.createElement('div');
 
     let classes = [];
     // base style class
@@ -53,16 +53,21 @@ export class WidgetPanel {
       console.warn(`Failed to load theme "${this.context.display.theme}".`, e);
     }
 
-    // done
-    reportButton.className = classes.join(' ');
-    document.body.appendChild(reportButton);
+    // done styling
+    widgetPanel.className = classes.join(' ');
+
+    let reportButton: HTMLButtonElement = document.createElement('button');
+    reportButton.classList.add('report');
+    reportButton.innerHTML = this.context.display.content;
+    widgetPanel.appendChild(reportButton);
+    this.reportButton = reportButton;
 
     let relatedIssuesBadge = document.createElement('div');
     relatedIssuesBadge.classList.add('badge');
     relatedIssuesBadge.classList.add('related');
     relatedIssuesBadge.title = '跟我有關的問題';
     relatedIssuesBadge.style.display = 'none';
-    reportButton.appendChild(relatedIssuesBadge);
+    widgetPanel.appendChild(relatedIssuesBadge);
     this.relatedIssuesBadge = relatedIssuesBadge;
     this.setRelatedIssuesCount(0);
 
@@ -71,7 +76,7 @@ export class WidgetPanel {
     createdIssuesBadge.classList.add('created');
     createdIssuesBadge.title = '我回報的問題';
     createdIssuesBadge.style.display = 'none';
-    reportButton.appendChild(createdIssuesBadge);
+    widgetPanel.appendChild(createdIssuesBadge);
     this.createdIssuesBadge = createdIssuesBadge;
     this.setCreatedIssuesCount(0);
 
@@ -80,10 +85,11 @@ export class WidgetPanel {
     loginButton.title = '登入 Rakr';
     loginButton.innerHTML = require('./ic_account_circle_black_24px.svg');
     loginButton.style.display = 'none';
-    reportButton.appendChild(loginButton);
+    widgetPanel.appendChild(loginButton);
     this.loginButton = loginButton;
 
-    this.reportButton = reportButton;
+    document.body.appendChild(widgetPanel);
+    this.widgetPanel = widgetPanel;
   }
 
   public reportButtonOnClick(onclick: (event: MouseEvent) => any) {
@@ -111,11 +117,11 @@ export class WidgetPanel {
   }
 
   public show(): void {
-    this.reportButton.hidden = false;
+    this.widgetPanel.hidden = false;
   }
 
   public hide(): void {
-    this.reportButton.hidden = true;
+    this.widgetPanel.hidden = true;
   }
 
   public setRelatedIssuesCount(count: number): void {
