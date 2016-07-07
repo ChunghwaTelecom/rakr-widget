@@ -63,13 +63,13 @@ export class Widget {
     this.widgetPanel.relatedIssuesBadgeOnClick(
       (event) => {
         event.stopPropagation();
-        this.windowOpener.openRakr('/issues?query=assigned_to_me');
+        this.windowOpener.openRakr('/issues?type=query&criteria=assigned_to_me');
       }
     );
     this.widgetPanel.createdIssuesBadgeOnClick(
       (event) => {
         event.stopPropagation();
-        this.windowOpener.openRakr('/issues?query=created_by_me');
+        this.windowOpener.openRakr('/issues?type=query&criteria=created_by_me');
       }
     );
 
