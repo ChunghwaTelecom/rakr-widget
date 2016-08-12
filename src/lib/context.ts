@@ -32,7 +32,7 @@ export class Context {
         rakrUrl = url;
       }
       var id = argumentsQueue[0][1];
-      if (id.indexOf('RAKR-') === 0) {
+      if (id) {
         clientId = id;
       }
     }
