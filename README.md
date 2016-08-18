@@ -10,6 +10,7 @@ Embed following snippet into your HTML.
   (r[y].q=r[y].q||[]).push(arguments)},r[y].l=1*new Date();o=a.createElement(k),
   u=a.getElementsByTagName(k)[0];o.async=1;o.src=e;u.parentNode.insertBefore(o,u)
   })(window,document,'script','//cht.technology/rakr-widget.js','rakr');
+  //                           \- url to the rakr widget javascript
   
   rakr('//localhost:3000', 'YOUR_RAKR_PROJECT_ID');
   //    \- rakr base url    \- rakr id 
