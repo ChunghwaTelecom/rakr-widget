@@ -11,7 +11,7 @@ Embed following snippet into your HTML.
   u=a.getElementsByTagName(k)[0];o.async=1;o.src=e;u.parentNode.insertBefore(o,u)
   })(window,document,'script','//cht.technology/rakr-widget.js','rakr');
   
-  rakr('//localhost:3000', 'RAKR-YOUR_ID_HERE');
+  rakr('//localhost:3000', 'YOUR_RAKR_PROJECT_ID');
   //    \- rakr base url    \- rakr id 
   
   // customizations
