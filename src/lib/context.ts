@@ -8,6 +8,7 @@ declare var window: RakrWindow;
 
 export class Context {
 
+  user: any;
 
   rakrUrl: string;
   newIssuePath: string;

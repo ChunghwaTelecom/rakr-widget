@@ -27,8 +27,6 @@ export class Widget {
   private reporter: Reporter;
   private windowOpener: WindowOpener;
 
-  loggedIn = false;
-
   constructor() {
     this.context = new Context();
     if (this.context.shortcuts) {
@@ -43,7 +41,7 @@ export class Widget {
     this.widgetPanel.reportButtonOnClick(() => this.reportIssue());
 
     this.loginPanel.isLoggedIn().then(
-      () => this.updateNotification(),
+      () => this.registerNotification(),
       () => {
         this.widgetPanel.loginButtonShow();
         this.widgetPanel.loginButtonOnClick(
@@ -51,9 +49,10 @@ export class Widget {
             event.stopPropagation();
 
             this.loginPanel.login().then(
-              () => {
+              (user) => {
+                this.context.user = user;
                 this.widgetPanel.loginButtonHide();
-                this.updateNotification();
+                this.registerNotification();
               },
               (message) => Prompter.prompt(message)
             )
@@ -74,21 +73,28 @@ export class Widget {
     );
 
     this.reporter = new Reporter(this.context);
+  }
 
+  private registerNotification() {
     let webSocketRoot = document.head.querySelector('[name=backend-websocket-root]') ?
       (<HTMLMetaElement>document.head.querySelector('[name=backend-websocket-root]')).content :
       this.context.resolveFullPath('/websocket/issues');
     this.socket = new SockJS(webSocketRoot);
     let stompClient = Stomp.over(this.socket);
     let _self = this;
-    stompClient.connect({}, function (frame) {
-      stompClient.subscribe('/topic/issues',
-        // TODO since we cannot filter message by user right now,
-        //      issueing an full query again.
-        // FIXME popup notification message (related to user).
-        result => _self.updateNotification()
+    stompClient.connect({}, function (sessionId) {
+      stompClient.subscribe(`/user/${_self.context.user.redmineId}/issues`,
+        (result) => {
+          let obj = JSON.parse(result.body);
+          let created = obj.author;
+          let related = obj.assignee;
+
+          _self.widgetPanel.setCreatedIssuesCount(created);
+          _self.widgetPanel.setRelatedIssuesCount(related);
+        }
       );
     });
+    this.updateNotification();
   }
 
   private updateNotification() {

@@ -45,9 +45,9 @@ export class LoginPanel {
         event.preventDefault();
 
         this.performLogin().then(
-          () => {
+          (user) => {
             document.body.removeChild(loginPanel);
-            resolve();
+            resolve(user);
           },
           (message) => {
             Prompter.prompt(!message ? '登入失敗' : '登入失敗' + message);
@@ -64,7 +64,12 @@ export class LoginPanel {
   }
 
   public isLoggedIn() {
-    return HttpRequest.get(this.context.resolveFullPath('/api/login/success'));
+    return HttpRequest.get(this.context.resolveFullPath('/api/login/success'))
+      .then((userJson) => {
+        let user = JSON.parse(userJson);
+        this.context.user = user;
+        return user;
+      });
   }
 
   private performLogin() {
