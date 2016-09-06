@@ -27,8 +27,6 @@ export class Widget {
   private reporter: Reporter;
   private windowOpener: WindowOpener;
 
-  loggedIn = false;
-
   constructor() {
     this.context = new Context();
     if (this.context.shortcuts) {
