@@ -49,7 +49,8 @@ export class Widget {
             event.stopPropagation();
 
             this.loginPanel.login().then(
-              () => {
+              (user) => {
+                this.context.user = user;
                 this.widgetPanel.loginButtonHide();
                 this.updateNotification();
               },
